@@ -2,7 +2,6 @@
 
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
@@ -52,28 +51,28 @@ export default function AthleteProfile() {
           <CardTitle className="text-xl font-bold">Verified Results</CardTitle>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Test</TableHead>
-                <TableHead>Score</TableHead>
-                <TableHead>Status</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
+          <table className="min-w-full border text-sm">
+            <thead>
+              <tr>
+                <th className="border px-2 py-1">Test</th>
+                <th className="border px-2 py-1">Score</th>
+                <th className="border px-2 py-1">Status</th>
+              </tr>
+            </thead>
+            <tbody>
               {athlete.results.map((result, idx) => (
-                <TableRow key={idx}>
-                  <TableCell>{result.test}</TableCell>
-                  <TableCell>{result.score}</TableCell>
-                  <TableCell>
+                <tr key={idx}>
+                  <td className="border px-2 py-1">{result.test}</td>
+                  <td className="border px-2 py-1">{result.score}</td>
+                  <td className="border px-2 py-1">
                     <Badge variant={result.status === "Verified" ? "default" : "outline"}>
                       {result.status}
                     </Badge>
-                  </TableCell>
-                </TableRow>
+                  </td>
+                </tr>
               ))}
-            </TableBody>
-          </Table>
+            </tbody>
+          </table>
           <div className="mt-4 flex justify-end gap-3">
             <Button variant="outline" asChild>
               <Link href="/admin/athletes">Back</Link>

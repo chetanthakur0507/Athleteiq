@@ -1,7 +1,6 @@
 "use client"
 
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -25,36 +24,36 @@ export default function AthletesList() {
             <Input placeholder="Search athletes..." className="w-[250px]" />
             <Button>+ Add Athlete</Button>
           </div>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Sport</TableHead>
-                <TableHead>State</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Action</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
+          <table className="min-w-full border text-sm">
+            <thead>
+              <tr>
+                <th className="border px-2 py-1">Name</th>
+                <th className="border px-2 py-1">Sport</th>
+                <th className="border px-2 py-1">State</th>
+                <th className="border px-2 py-1">Status</th>
+                <th className="border px-2 py-1">Action</th>
+              </tr>
+            </thead>
+            <tbody>
               {athletes.map((athlete) => (
-                <TableRow key={athlete.id}>
-                  <TableCell>{athlete.name}</TableCell>
-                  <TableCell>{athlete.sport}</TableCell>
-                  <TableCell>{athlete.state}</TableCell>
-                  <TableCell>
+                <tr key={athlete.id}>
+                  <td className="border px-2 py-1">{athlete.name}</td>
+                  <td className="border px-2 py-1">{athlete.sport}</td>
+                  <td className="border px-2 py-1">{athlete.state}</td>
+                  <td className="border px-2 py-1">
                     <Badge variant={athlete.status === "Verified" ? "default" : "destructive"}>
                       {athlete.status}
                     </Badge>
-                  </TableCell>
-                  <TableCell>
+                  </td>
+                  <td className="border px-2 py-1">
                     <Link href={`/admin/athletes/${athlete.id}`}>
                       <Button variant="outline" size="sm">View</Button>
                     </Link>
-                  </TableCell>
-                </TableRow>
+                  </td>
+                </tr>
               ))}
-            </TableBody>
-          </Table>
+            </tbody>
+          </table>
         </CardContent>
       </Card>
     </div>
