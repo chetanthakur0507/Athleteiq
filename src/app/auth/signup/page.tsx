@@ -2,6 +2,7 @@
 
 import React, { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import Cropper from "react-easy-crop";
 import type { Area } from "react-easy-crop";
 import { Card, CardContent } from "@/components/ui/card";
@@ -154,7 +155,7 @@ export default function SignupPage() {
           age--;
         }
         setFormData((p) => ({ ...p, age: age >= 0 ? age : undefined }));
-    } catch (e) {
+    } catch {
         setFormData(p => ({...p, age: undefined}));
     }
   }, [formData.dob]);
@@ -192,10 +193,12 @@ export default function SignupPage() {
   const getCroppedImg = useCallback(async (imageSrc: string, cropPixels: Area | null) => {
     if (!cropPixels) return null;
     const image = await new Promise<HTMLImageElement>((resolve, reject) => {
-      const img = new Image();
+      const img = typeof window !== "undefined"
+        ? new window.Image()
+        : new (globalThis as typeof globalThis & { Image: typeof Image }).Image();
       img.crossOrigin = "anonymous";
       img.onload = () => resolve(img);
-      img.onerror = (e) => reject(e);
+      img.onerror = (e: Event | string) => reject(e);
       img.src = imageSrc;
     });
 
@@ -257,7 +260,7 @@ export default function SignupPage() {
     ] as (keyof FormShape)[];
 
     for (const k of req) {
-      const val = String((formData as any)[k] ?? "").trim();
+      const val = String(formData[k] ?? "").trim();
       if (!val) return { ok: false, msg: `${k.charAt(0).toUpperCase() + k.slice(1)} is required` };
     }
     if (formData.age === undefined || formData.age < 0) return { ok: false, msg: "Invalid Date of Birth" };
@@ -367,8 +370,21 @@ export default function SignupPage() {
                <Label>Profile Image (optional)</Label>
                <Input type="file" accept="image/*" onChange={handleImageUpload} className="file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"/>
                {formData.profileImage && (
-                 <div className="flex gap-4 items-center mt-2">
-                   <img src={formData.profileImage} alt="preview" className="w-24 h-24 object-cover rounded-full" />
+                 <div>
+                   <Image
+                     src={formData.profileImage ?? ""}
+                     alt="preview"
+                     width={96}
+                     height={96}
+                     className="w-24 h-24 object-cover rounded-full"
+                   />
+                   <Image
+                     src={formData.profileImage ?? ""}
+                     alt="preview"
+                     width={96}
+                     height={96}
+                     className="w-24 h-24 object-cover rounded-full"
+                   />
                    <div className="flex gap-2">
                      <Button
                        type="button"

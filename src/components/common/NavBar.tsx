@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/ModeToggle";
@@ -10,7 +11,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -81,7 +81,14 @@ export default function Navbar() {
         {/* Logo */}
         <Link href="/" >
           <span className="flex items-center  gap-2">
-            <img className="h-14 w-14 object-contain" src="/logo.png" alt="AthletiQ" />
+            <Image
+              src="/logo.png"
+              alt="AthletiQ"
+              width={56}
+              height={56}
+              className="h-14 w-14 object-contain"
+              priority
+            />
           </span>
         </Link>
 
@@ -147,7 +154,7 @@ export default function Navbar() {
               <DropdownMenuTrigger asChild>
                 <Avatar className="cursor-pointer">
                   <AvatarImage
-                    src={user?.imageUrl || profileImage || "/defaultImg.png"}
+                    src={profileImage || "/defaultImg.png"}
                     alt={displayName || "User"}
                   />
                   <AvatarFallback>
